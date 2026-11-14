@@ -1,0 +1,195 @@
+{
+  "entities": {
+    "ShopProfile": {
+      "title": "ShopProfile",
+      "description": "Store profile and POS preferences for Fahim Siam Traders",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID" },
+        "businessName": { "type": "string", "description": "Business name printed on cash memos" },
+        "ownerName": { "type": "string", "description": "Store owner name" },
+        "ownerEmail": { "type": "string", "description": "Owner email" },
+        "phone": { "type": "string", "description": "Store contact phone" },
+        "address": { "type": "string", "description": "Store address" },
+        "preferredLanguage": { "type": "string", "enum": ["bn", "en", "both"], "description": "UI & cash memo language" },
+        "receiptFooterBn": { "type": "string", "description": "Bengali cash memo footer" },
+        "receiptFooterEn": { "type": "string", "description": "English cash memo footer" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp" }
+      },
+      "required": ["userId", "businessName", "preferredLanguage", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product with barcode, QR, cost/sell price, and stock quantity",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "nameBn": { "type": "string" },
+        "sku": { "type": "string" },
+        "barcode": { "type": "string" },
+        "qrCode": { "type": "string" },
+        "category": { "type": "string" },
+        "unit": { "type": "string" },
+        "purchasePrice": { "type": "number" },
+        "sellPrice": { "type": "number" },
+        "stockQty": { "type": "number" },
+        "lowStockThreshold": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "category", "unit", "purchasePrice", "sellPrice", "stockQty", "lowStockThreshold", "createdAt", "updatedAt"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Retail or wholesale customer with cumulative purchases and due balance",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "totalPurchases": { "type": "number" },
+        "totalDue": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "totalPurchases", "totalDue", "createdAt", "updatedAt"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Product supplier with cumulative purchase volume and payable due balance",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "companyName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "totalSupplied": { "type": "number" },
+        "totalDue": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "totalSupplied", "totalDue", "createdAt", "updatedAt"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "POS sale transaction and bilingual cash memo",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "memoNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "items": { "type": "array", "description": "Bounded list of up to 50 line items" },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["CASH", "BKASH", "NAGAD", "BANK", "DUE"] },
+        "saleEpochMs": { "type": "integer" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "memoNumber", "customerName", "items", "subtotal", "discount", "totalAmount", "paidAmount", "dueAmount", "totalCost", "paymentMethod", "saleEpochMs", "createdAt", "updatedAt"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Supplier purchase bill that increments product stock",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "items": { "type": "array", "description": "Bounded list of up to 50 purchased items" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["CASH", "BKASH", "NAGAD", "BANK", "DUE"] },
+        "purchaseEpochMs": { "type": "integer" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "invoiceNumber", "supplierName", "items", "totalAmount", "paidAmount", "dueAmount", "paymentMethod", "purchaseEpochMs", "createdAt", "updatedAt"]
+    },
+    "DuePayment": {
+      "title": "DuePayment",
+      "description": "Due collection from customer or due payment to supplier",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "partyType": { "type": "string", "enum": ["CUSTOMER", "SUPPLIER"] },
+        "partyId": { "type": "string" },
+        "partyName": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["CASH", "BKASH", "NAGAD", "BANK"] },
+        "paymentEpochMs": { "type": "integer" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "partyType", "partyId", "partyName", "amount", "paymentMethod", "paymentEpochMs", "createdAt", "updatedAt"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Daily business expense entry",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["CASH", "BKASH", "NAGAD", "BANK"] },
+        "expenseEpochMs": { "type": "integer" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "category", "amount", "paymentMethod", "expenseEpochMs", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/ShopProfile" },
+      "description": "Store profile and language/memo settings owned by userId"
+    },
+    "/users/{userId}/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "User's product catalog and stock inventory"
+    },
+    "/users/{userId}/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "User's customer directory and due balances"
+    },
+    "/users/{userId}/suppliers/{supplierId}": {
+      "schema": { "$ref": "#/entities/Supplier" },
+      "description": "User's supplier directory and payable balances"
+    },
+    "/users/{userId}/sales/{saleId}": {
+      "schema": { "$ref": "#/entities/Sale" },
+      "description": "User's POS sales and cash memos"
+    },
+    "/users/{userId}/purchases/{purchaseId}": {
+      "schema": { "$ref": "#/entities/Purchase" },
+      "description": "User's supplier purchase invoices"
+    },
+    "/users/{userId}/due_payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/DuePayment" },
+      "description": "User's due collection and payment ledger"
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "User's daily expense records"
+    }
+  }
+}

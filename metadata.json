@@ -1,0 +1,6 @@
+{
+  "name": "Fahim Siam Traders POS",
+  "description": "Business management and POS software for Fahim Siam Traders featuring billing, inventory, purchase, due tracking, reports, barcode/QR scanning, bilingual Bengali & English cash memos, and cloud backup.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
